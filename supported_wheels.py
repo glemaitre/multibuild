@@ -11,10 +11,14 @@ try:
 except ImportError:  # As of Wheel 0.32.0
     from wheel.wheelfile import WHEEL_INFO_RE
     wheel_matcher = WHEEL_INFO_RE.match
+
 try:
-    from pip.pep425tags import get_supported
-except ImportError:  # pip 10
-    from pip._internal.pep425tags import get_supported
+    from pip._internal.utils.compatibility_tags import get_supported
+except ImportError:
+    try:
+        from pip.pep425tags import get_supported
+    except ImportError:  # pip 10
+        from pip._internal.pep425tags import get_supported
 
 
 def tags_for(fname):
